@@ -133,3 +133,9 @@ int main(){
     printf("Distance  = %d",dis[dest_1d]);
     return 0;
 }
+/*
+1234
+5678
+9#AC
+DEBF
+*/

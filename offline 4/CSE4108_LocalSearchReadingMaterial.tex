@@ -1,0 +1,124 @@
+\documentclass{article}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}% http://ctan.org/pkg/algorithm2e
+%Gummi|065|=)
+\usepackage[top=10pt]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{listings,color}
+%%%% If you are not using LaTex2e, replace the first two lines 
+%%%% with the following:
+%\documentstyle[exam96,epsf,ams]{article}
+%\input{amssym}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\title{\textbf{Local Search: Some Algorithms, Explanations and Sample Codes}}
+\author{Mir Imtiaz Mostafiz}
+\date{}
+
+\DontPrintSemicolon
+
+\begin{document}
+\maketitle
+
+\section{Example Problem}
+In this tutorial, we will use 8 Queen problem as an example. Each solution will be a string which is a permutation of ``12345678''- denoting the index of columns for each particular rows. For example, ``34125768'' means the 8 queens are in - (row 1,column 3), (row 2, column 4), (row 3, column 1) and so on.
+\section{helper.py}
+helper.py is a python script which contains the implementations of regular routines in a local search algorithm. This file is just like a C header or Java package file. You are asked to put all those 4 python files (Helper, HillClimbing, SteepestAscentHillClimbing and SimulatedAnnealing) in same folder. 
+\lstinputlisting[caption = helper.py]{helper.py}
+ 
+  \section{Hill Climbing}
+  \subsection{Reading Materials}
+  Chapter 2: Algorithm 4 - Essentials of Metaheuristics.
+  \subsection{Algorithm}  \begin{algorithm}
+  $S$ = some initial candidate solution\;
+    \Repeat{($S$ is the ideal solution $\parallel$ we have run out of time)}{%
+      $R$ = tweak(Copy($S$))\;\label{stepA}
+      \If{Quality($R$)$>$Quality($S$)}{$S$= $R$}\;
+      }
+     \Return $S$\;
+  
+  \caption{Hill Climbing}
+  \label{algo:hill}
+  \end{algorithm}
+
+  \subsection{Implementation}
+
+ \lstinputlisting[caption = HillClimbing.py]{HillClimbing.py}
+  
+  \section{Steepest Ascent Hill Climbing}
+  
+  \subsection{Reading Materials}
+Chapter 2: Algorithm 5 - Essentials of Metaheuristics.
+    
+  \subsection{Algorithm}
+  \begin{algorithm}
+  $S$ = some initial candidate solution\;
+  $n$ = number of tweaks desired to sample the gradient\;
+    \Repeat{($S$ is the ideal solution $\parallel$ we have run out of time)}{%
+      $R$ = tweak(Copy($S$))\;\label{stepA}
+      \For{$n-1$ times}{
+      $W$ = tweak(Copy($S$))\;
+      \If{Quality($W$)$>$Quality($R$)}{$R$= $W$}\;}
+      \If{Quality($R$)$>$Quality($S$)}{$S$= $R$}\;
+      }
+  \Return $S$\;
+  \caption{Steepest Ascent Hill Climbing}
+  \label{algo:st}
+  \end{algorithm}
+  \subsection{Implementation}
+  
+%\pythonexternal{SteepestAscentHillClimbing.py}
+ \lstinputlisting[caption = SteepestAscentHillClimbing.py]{SteepestAscentHillClimbing.py}
+ 
+\section{Simulated Annealing}
+  
+  \subsection{Reading Materials}
+  Chapter 4.1.2- Artificial Intelligence: A modern approach by Russel and Norvig.
+  \subsection{Algorithm}
+  \begin{algorithm}[h]
+  \KwIn{Schedule: A scheduling Function}
+  $S$ = some initial candidate solution\;
+  $t$ = temparature/time\;
+    \For{$t=1$ to $\infty$}{%
+      $T$ = Schedule($t$)\;
+      \If{$T=0$}{return $S$}
+      $R$ = tweak(Copy($S$))\;\label{stepA}
+      $\Delta H$ = Quality($R$)$-$Quality($S$)\;
+      \If{$\Delta H > 0$}{$S$= $R$\;}
+      \Else{
+      threshold\_probability = $e^{\frac{\Delta H}{T}}$\;
+      random\_probabiltiy = a random number uniformly chosen between 0.0 and1.0\;
+      \If{random\_probabiltiy $\leq$ threshold\_probability }{
+      $S$= $R$\;
+      }
+      }
+      }
+  \Return $S$\;
+  \caption{Simulated Annealing}
+  \label{algo:sim}
+  \end{algorithm}
+%\pythonexternal{}
+  \subsection{Implementation}
+
+\lstinputlisting[caption = SimulatedAnnealing.py]{SimulatedAnnealing.py}
+ 
+  \end{document}
+  
+ 
